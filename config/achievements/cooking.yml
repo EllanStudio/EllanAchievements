@@ -103,15 +103,15 @@ achievements:
     parent: "tomato_seed"
     title: "绝代双椒"
     description: "收获到青辣椒和红辣椒！"
-    icon: { item: "kaleidoscopecookery:red_chili" }
+    icon: { item: "customcrops:pepper" }
     trigger: "item_obtain"
     filter:
-      item: ["kaleidoscopecookery:red_chili", "kaleidoscopecookery:green_chili"]
+      item: ["customcrops:pepper", "kaleidoscopecookery:green_chili"]
     goal: 2
     count: "unique"
     unique-by: "item"
     unique-groups:
-      red_chili: ["kaleidoscopecookery:red_chili"]
+      red_chili: ["customcrops:pepper"]
       green_chili: ["kaleidoscopecookery:green_chili"]
   farmer_set:
     parent: "straw_hat"
@@ -245,7 +245,7 @@ achievements:
     parent: "add_oil"
     title: "翻炒！"
     description: "加入食材后使用锅铲进行不断翻炒，当食材炒熟后使用碗来盛出！"
-    icon: { item: "kaleidoscopecookery:kitchen_shovel" }
+    icon: { item: "kaleidoscopecookery:kitchen_shovel_no_oil" }
     trigger: "cooking_action"
     filter:
       action: "stir_fry_in_pot"
@@ -275,10 +275,10 @@ achievements:
     parent: "straw_hat"
     title: "种子计划"
     description: "清理草丛时候请别忘记穿戴草帽，除了草籽，或许还有其他收获"
-    icon: { item: "kaleidoscopecookery:tomato_seed" }
+    icon: { item: "customcrops:tomato_seeds" }
     trigger: "item_obtain"
     filter:
-      item: ["kaleidoscopecookery:tomato_seed", "kaleidoscopecookery:chili_seed", "kaleidoscopecookery:wild_rice", "kaleidoscopecookery:lettuce_seed", "kaleidoscopecookery:tea_seed"]
+      item: ["customcrops:tomato_seeds", "customcrops:pepper_seeds", "kaleidoscopecookery:wild_rice", "customcrops:lettuce_seeds"]
   transmutation_lunch_bag:
     title: "酒囊饭袋！"
     description: "使用嬗变饭袋进食"

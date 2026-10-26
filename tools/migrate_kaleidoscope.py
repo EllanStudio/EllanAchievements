@@ -13,14 +13,30 @@ TAB_ID = "cooking"
 BACKGROUND = "minecraft:block/spruce_planks"
 # Nitrogen flight is not implemented by the plugin, so these can never be earned.
 SKIPPED = {"nitrogen_100", "nitrogen_300", "nitrogen_1000", "nitrogen_3000"}
+# Items the Paper port renamed or moved (checked against the server's CraftEngine resources, 2026-10-27):
+# tomato, chili and lettuce come from CustomCrops; the shovel has oil/no-oil variants; tea seeds do not exist.
+RENAMES = {
+    "kaleidoscopecookery:tomato_seed": ["customcrops:tomato_seeds"],
+    "kaleidoscopecookery:lettuce_seed": ["customcrops:lettuce_seeds"],
+    "kaleidoscopecookery:chili_seed": ["customcrops:pepper_seeds"],
+    "kaleidoscopecookery:red_chili": ["customcrops:pepper"],
+    "kaleidoscopecookery:kitchen_shovel": ["kaleidoscopecookery:kitchen_shovel_no_oil",
+                                           "kaleidoscopecookery:kitchen_shovel_has_oil"],
+    "kaleidoscopecookery:tea_seed": [],
+}
+
+
+def _rename(item):
+    return RENAMES.get(item, [item])
 
 
 def _items(criteria, names):
     items = []
     for name in names:
-        for item in criteria[name]["items"]:
-            if item not in items:
-                items.append(item)
+        for source_item in criteria[name]["items"]:
+            for item in _rename(source_item):
+                if item not in items:
+                    items.append(item)
     return items
 
 
@@ -76,7 +92,7 @@ def migrate(source):
             ach["parent"] = adv["parent"]
         ach["title"] = adv["title"]
         ach["description"] = adv["description"]
-        ach["icon"] = {"item": adv["icon"]}
+        ach["icon"] = {"item": (_rename(adv["icon"]) or [adv["icon"]])[0]}
         if adv["frame"] != "task":
             ach["frame"] = adv["frame"]
         if adv["hidden"]:
