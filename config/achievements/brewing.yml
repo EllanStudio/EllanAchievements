@@ -1,0 +1,60 @@
+# 酿酒成就（TheBrewingProject，示例，可直接修改）。"获得"只计自己参与酿造的酒，同一瓶只计一次。
+tab:
+  id: brewing
+  title: "酿酒"
+  description: "酒香不怕巷子深"
+  icon: { item: "minecraft:barrel" }
+  background: "minecraft:block/barrel_top"
+achievements:
+  first_brew:
+    title: "初酿"
+    description: "获得一瓶自己酿造的酒"
+    icon: { item: "minecraft:potion" }
+    trigger: brew_obtain
+    rewards: { exp: 10 }
+  excellent_brew:
+    parent: first_brew
+    title: "佳酿"
+    description: "获得一瓶自己酿造的优秀品质的酒"
+    icon: { item: "minecraft:honey_bottle" }
+    frame: goal
+    trigger: brew_obtain
+    filter: { quality: "excellent" }
+    rewards: { exp: 50, coins: 300 }
+  ten_recipes:
+    parent: first_brew
+    title: "酒窖主人"
+    description: "酿出 10 种不同的酒"
+    icon: { item: "minecraft:barrel" }
+    frame: goal
+    trigger: brew_obtain
+    goal: 10
+    count: unique
+    unique-by: recipe
+    rewards: { exp: 50, coins: 500 }
+  fifty_drinks:
+    parent: first_brew
+    title: "千杯不醉"
+    description: "喝下 50 瓶酒"
+    icon: { item: "minecraft:glass_bottle" }
+    trigger: brew_drink
+    goal: 50
+    rewards: { exp: 30 }
+  lychee_wine:
+    parent: ten_recipes
+    title: "一骑红尘妃子笑"
+    description: "酿出荔枝酒"
+    icon: { item: "customcrops:lychee" }
+    trigger: brew_obtain
+    filter: { recipe: "lychee_wine" }
+    rewards: { exp: 30 }
+  durian_spirit:
+    parent: ten_recipes
+    title: "闻着臭，喝着香"
+    description: "酿出榴莲烈酒"
+    icon: { item: "customcrops:durian" }
+    frame: challenge
+    hidden: true
+    trigger: brew_obtain
+    filter: { recipe: "durian_spirit" }
+    rewards: { exp: 100, coins: 500 }

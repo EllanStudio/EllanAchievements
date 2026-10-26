@@ -1,0 +1,57 @@
+# 森罗酒馆成就（示例，可直接修改）。成就 id 上线后不要改名或复用；下架请用 disabled: true。
+tab:
+  id: tavern
+  title: "森罗酒馆"
+  description: "压榨、陈酿、调制，来一杯吧"
+  icon: { item: "kaleidoscope_tavern:champagne" }
+  background: "minecraft:block/dark_oak_planks"
+achievements:
+  first_press:
+    title: "榨汁时间"
+    description: "用空桶从压榨桶中取出果汁"
+    icon: { item: "kaleidoscope_tavern:grape_bucket" }
+    trigger: tavern_press
+    rewards: { exp: 10 }
+  first_shake:
+    parent: first_press
+    title: "摇一摇"
+    description: "用雪克杯调出一杯饮品"
+    icon: { item: "kaleidoscope_tavern:bloody_mary" }
+    trigger: tavern_shake
+    rewards: { exp: 10 }
+  brandy_tap:
+    parent: first_press
+    title: "陈年白兰地"
+    description: "从酒桶龙头接出一杯白兰地"
+    icon: { item: "kaleidoscope_tavern:brandy" }
+    frame: goal
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:brandy" }
+    rewards: { exp: 50, coins: 300 }
+  five_cocktails:
+    parent: first_shake
+    title: "调酒师"
+    description: "调出 5 种不同的鸡尾酒"
+    icon: { item: "kaleidoscope_tavern:champagne" }
+    frame: goal
+    trigger: tavern_shake
+    goal: 5
+    count: unique
+    unique-by: product
+    rewards: { exp: 50, coins: 300 }
+  bloody_mary:
+    parent: first_shake
+    title: "血腥玛丽"
+    description: "调出一杯血腥玛丽"
+    icon: { item: "kaleidoscope_tavern:bloody_mary" }
+    trigger: tavern_shake
+    filter: { product: "kaleidoscope_tavern:bloody_mary" }
+    rewards: { exp: 30 }
+  twenty_drinks:
+    parent: first_press
+    title: "常客"
+    description: "喝下 20 杯酒馆饮品"
+    icon: { item: "kaleidoscope_tavern:barrel" }
+    trigger: tavern_drink
+    goal: 20
+    rewards: { exp: 30 }

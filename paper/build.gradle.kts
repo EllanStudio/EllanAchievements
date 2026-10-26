@@ -24,6 +24,10 @@ tasks.processResources {
     filesMatching("plugin.yml") {
         expand("version" to project.version)
     }
+    // The authoritative achievement config lives in config/achievements and is copied on first start.
+    from(rootProject.file("config/achievements")) {
+        into("achievements")
+    }
 }
 
 tasks.jar {

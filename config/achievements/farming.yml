@@ -1,0 +1,61 @@
+# 农耕成就（示例，可直接修改）。成就 id 上线后不要改名或复用；下架请用 disabled: true。
+tab:
+  id: farming
+  title: "农耕"
+  description: "一分耕耘，一分收获"
+  icon: { item: "customcrops:corn" }
+  background: "minecraft:block/farmland"
+achievements:
+  first_seed:
+    title: "播下希望"
+    description: "种下第一株作物"
+    icon: { item: "minecraft:wheat_seeds" }
+    trigger: crop_plant
+    rewards: { exp: 10 }
+  hundred_harvests:
+    parent: first_seed
+    title: "丰收时节"
+    description: "收获 100 次成熟作物"
+    icon: { item: "customcrops:corn" }
+    trigger: crop_harvest
+    goal: 100
+    rewards: { exp: 50, coins: 200 }
+  ten_crops:
+    parent: first_seed
+    title: "百草园"
+    description: "收获 10 种不同的成熟作物"
+    icon: { item: "customcrops:blueberry" }
+    frame: goal
+    trigger: crop_harvest
+    goal: 10
+    count: unique
+    unique-by: crop
+    rewards: { exp: 50, coins: 300 }
+  durian:
+    parent: ten_crops
+    title: "水果之王"
+    description: "收获一个成熟的榴莲"
+    icon: { item: "customcrops:durian" }
+    trigger: crop_harvest
+    filter: { crop: "durian" }
+    rewards: { exp: 30 }
+  golden_quality:
+    parent: hundred_harvests
+    title: "精品农产"
+    description: "收获一份第 3 档品质的作物"
+    icon: { item: "minecraft:golden_carrot" }
+    frame: goal
+    trigger: crop_quality
+    filter: { quality: ">=3" }
+    rewards: { exp: 50, coins: 300 }
+  four_seasons:
+    parent: hundred_harvests
+    title: "四季轮回"
+    description: "在春夏秋冬四个季节都收获过作物"
+    icon: { item: "minecraft:clock" }
+    frame: challenge
+    trigger: crop_harvest
+    goal: 4
+    count: unique
+    unique-by: season
+    rewards: { exp: 100, coins: 500 }

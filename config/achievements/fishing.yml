@@ -1,0 +1,77 @@
+# 垂钓成就（示例，可直接修改）。成就 id 上线后不要改名或复用；下架请用 disabled: true。
+tab:
+  id: fishing
+  title: "垂钓"
+  description: "与鱼相伴的日子"
+  icon: { item: "customfishing:gold_fish" }
+  background: "minecraft:block/prismarine"
+achievements:
+  first_catch:
+    title: "第一口咬钩"
+    description: "钓上任意一样东西"
+    icon: { item: "minecraft:fishing_rod" }
+    trigger: fish_catch
+    rewards: { exp: 10 }
+  hundred_catches:
+    parent: first_catch
+    title: "百尾渔夫"
+    description: "累计钓上 100 次"
+    icon: { item: "customfishing:tuna_fish" }
+    trigger: fish_catch
+    goal: 100
+    rewards: { exp: 50, coins: 200 }
+  thousand_catches:
+    parent: hundred_catches
+    title: "千钩老手"
+    description: "累计钓上 1000 次"
+    icon: { item: "customfishing:gold_fish" }
+    frame: challenge
+    trigger: fish_catch
+    goal: 1000
+    rewards: { exp: 100, coins: 1000 }
+  ten_species:
+    parent: first_catch
+    title: "图鉴初成"
+    description: "钓上 10 种不同的渔获"
+    icon: { item: "minecraft:book" }
+    frame: goal
+    trigger: fish_catch
+    goal: 10
+    count: unique
+    unique-by: loot
+    rewards: { exp: 50, coins: 300 }
+  golden_tuna:
+    parent: first_catch
+    title: "金星金枪鱼"
+    description: "钓上一条金星金枪鱼"
+    icon: { item: "customfishing:tuna_fish" }
+    frame: goal
+    trigger: fish_catch
+    filter: { loot: "tuna_fish_golden_star" }
+    rewards: { exp: 50, coins: 300 }
+  big_one:
+    parent: first_catch
+    title: "这么大一条！"
+    description: "钓上一条尺寸不小于 50 的鱼"
+    icon: { item: "minecraft:cod" }
+    trigger: fish_catch
+    filter: { size: ">=50" }
+    rewards: { exp: 30 }
+  new_record:
+    parent: big_one
+    title: "破纪录了"
+    description: "刷新一次个人尺寸纪录"
+    icon: { item: "minecraft:goat_horn" }
+    trigger: fish_catch
+    filter: { new_record: true }
+    rewards: { exp: 30 }
+  void_angler:
+    parent: hundred_catches
+    title: "虚空垂钓者"
+    description: "从虚空中钓上东西"
+    icon: { item: "customfishing:salmon_void_fish" }
+    frame: challenge
+    hidden: true
+    trigger: fish_catch
+    filter: { group: ["void"] }
+    rewards: { exp: 100, coins: 500 }
