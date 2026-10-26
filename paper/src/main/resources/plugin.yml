@@ -1,0 +1,16 @@
+name: EllanAchievements
+version: "${version}"
+main: dev.ellan.achievements.paper.EllanAchievementsPlugin
+api-version: "26.2"
+authors: [EllanStudio]
+description: Vanilla advancements for Ellan cooking, tavern, brewing, fishing and farming
+softdepend: [CraftEngine, ExcellentEconomy, CustomFishing, CustomCrops, TheBrewingProject, KaleidoscopeCookeryPlugin, KaleidoscopeTavern]
+commands:
+  ea:
+    description: 管理 EllanAchievements 成就
+    usage: /ea <status|reload|progress|set|reset>
+    permission: ellanachievements.admin
+permissions:
+  ellanachievements.admin:
+    description: 允许管理成就
+    default: op
