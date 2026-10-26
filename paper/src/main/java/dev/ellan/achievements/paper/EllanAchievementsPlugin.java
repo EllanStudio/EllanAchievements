@@ -7,6 +7,7 @@ import dev.ellan.achievements.core.config.LoadResult;
 import dev.ellan.achievements.core.config.Severity;
 import dev.ellan.achievements.paper.adapter.Adapter;
 import dev.ellan.achievements.paper.adapter.AdapterRegistry;
+import dev.ellan.achievements.paper.adapter.fishing.FishingAdapter;
 import dev.ellan.achievements.paper.command.AuditLog;
 import dev.ellan.achievements.paper.command.EaCommand;
 import dev.ellan.achievements.paper.display.AdvancementRegistrar;
@@ -31,7 +32,6 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -72,7 +72,7 @@ public final class EllanAchievementsPlugin extends JavaPlugin implements Listene
 
     /** Adapters in display order; later tasks add to this list. */
     private List<Adapter> adapters() {
-        return new ArrayList<>();
+        return List.of(new FishingAdapter());
     }
 
     /** Re-registers after any datapack reload, which drops in-memory advancements. */
