@@ -2,6 +2,7 @@ package dev.ellan.achievements.paper.adapter.farming;
 
 import dev.ellan.achievements.core.event.GameplayEvent;
 import dev.ellan.achievements.paper.adapter.Adapter;
+import dev.ellan.achievements.paper.adapter.Guard;
 import dev.ellan.achievements.paper.icon.ItemIds;
 import net.momirealms.customcrops.api.BukkitCustomCropsPlugin;
 import net.momirealms.customcrops.api.core.mechanic.crop.CropConfig;
@@ -45,11 +46,16 @@ public final class FarmingAdapter implements Adapter {
         Bukkit.getPluginManager().registerEvents(new Listener() {
             @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
             public void onPlant(CropPlantEvent event) {
-                sink.accept(FarmingTranslator.plant(event.getPlayer().getUniqueId(), event.cropConfig().id()));
+                Guard.run(plugin, "CropPlantEvent",
+                    () -> sink.accept(FarmingTranslator.plant(event.getPlayer().getUniqueId(), event.cropConfig().id())));
             }
 
             @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
             public void onBreak(CropBreakEvent event) {
+                Guard.run(plugin, "CropBreakEvent", () -> harvest(event, sink));
+            }
+
+            private void harvest(CropBreakEvent event, Consumer<GameplayEvent> sink) {
                 if (!(event.entityBreaker() instanceof Player player)) {
                     return;
                 }
@@ -60,6 +66,10 @@ public final class FarmingAdapter implements Adapter {
 
             @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
             public void onQuality(QualityCropActionEvent event) {
+                Guard.run(plugin, "QualityCropActionEvent", () -> quality(event, sink));
+            }
+
+            private void quality(QualityCropActionEvent event, Consumer<GameplayEvent> sink) {
                 if (!(event.context().holder() instanceof Player player)) {
                     return;
                 }

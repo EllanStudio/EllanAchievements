@@ -1,5 +1,6 @@
 package dev.ellan.achievements.paper.adapter.generic;
 
+import dev.ellan.achievements.paper.adapter.Guard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,7 +41,8 @@ public final class ItemAcquisition {
             @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
             public void onPickup(EntityPickupItemEvent event) {
                 if (event.getEntity() instanceof Player player && present(event.getItem().getItemStack())) {
-                    handler.acquired(player, event.getItem().getItemStack(), event.getItem()::setItemStack);
+                    Guard.run(plugin, "EntityPickupItemEvent",
+                        () -> handler.acquired(player, event.getItem().getItemStack(), event.getItem()::setItemStack));
                 }
             }
 
@@ -52,7 +54,8 @@ public final class ItemAcquisition {
                     || !present(event.getCurrentItem())) {
                     return;
                 }
-                handler.acquired(player, event.getCurrentItem(), event::setCurrentItem);
+                Guard.run(plugin, "InventoryClickEvent",
+                    () -> handler.acquired(player, event.getCurrentItem(), event::setCurrentItem));
             }
         }, plugin);
     }

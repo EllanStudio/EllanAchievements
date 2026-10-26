@@ -2,6 +2,7 @@ package dev.ellan.achievements.paper.adapter.generic;
 
 import dev.ellan.achievements.core.event.GameplayEvent;
 import dev.ellan.achievements.paper.adapter.Adapter;
+import dev.ellan.achievements.paper.adapter.Guard;
 import dev.ellan.achievements.paper.icon.ItemIds;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,6 +41,10 @@ public final class GenericAdapter implements Adapter {
         Bukkit.getPluginManager().registerEvents(new Listener() {
             @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
             public void onDeath(EntityDeathEvent event) {
+                Guard.run(plugin, "EntityDeathEvent", () -> kill(event, sink));
+            }
+
+            private void kill(EntityDeathEvent event, Consumer<GameplayEvent> sink) {
                 Player killer = event.getEntity().getKiller();
                 if (killer == null) {
                     return;

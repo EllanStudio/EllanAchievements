@@ -33,7 +33,7 @@ public final class ReflectiveEvents {
         }
         Bukkit.getPluginManager().registerEvent(type, OWNER, EventPriority.MONITOR, (listener, event) -> {
             if (type.isInstance(event)) {
-                handler.accept(event);
+                Guard.run(plugin, eventClassName, () -> handler.accept(event));
             }
         }, plugin, true);
         return true;
