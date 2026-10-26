@@ -11,6 +11,8 @@ import dev.ellan.achievements.paper.display.AdvancementRegistrar;
 import dev.ellan.achievements.paper.display.ProgressService;
 import dev.ellan.achievements.paper.icon.IconResolver;
 import dev.ellan.achievements.paper.integration.PluginExternalIds;
+import dev.ellan.achievements.paper.reward.RewardListener;
+import dev.ellan.achievements.paper.reward.RewardService;
 import dev.ellan.achievements.paper.storage.ProgressStore;
 import io.papermc.paper.event.server.ServerResourcesReloadedEvent;
 import org.bukkit.Bukkit;
@@ -52,6 +54,7 @@ public final class EllanAchievementsPlugin extends JavaPlugin implements Listene
         adapters.enableAll(this, adapters(), progress);
         getLogger().info("Adapters: " + adapters.orderedStatus());
         Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(new RewardListener(this::catalog, new RewardService(this, store)), this);
         // First tick: every plugin is enabled and CraftEngine has loaded its items.
         Bukkit.getScheduler().runTask(this, () -> {
             loadConfig();
