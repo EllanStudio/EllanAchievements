@@ -13,6 +13,14 @@ class StepMathTest {
     }
 
     @Test
+    void completedAchievementKeepsAllStepsWhenGoalIsRaised() {
+        // goal raised 5 -> 20 after a player completed at 5: still fully done
+        assertThat(StepMath.targetSteps(5, 20, true)).isEqualTo(20);
+        assertThat(StepMath.targetSteps(5, 20, false)).isEqualTo(5);
+        assertThat(StepMath.targetSteps(7, 5, false)).isEqualTo(5);
+    }
+
+    @Test
     void awardedSteps() {
         assertThat(StepMath.awardedSteps(37, 100)).isEqualTo(37);
         assertThat(StepMath.awardedSteps(249, 250)).isEqualTo(99);

@@ -229,6 +229,29 @@ class ConfigLoaderTest {
     }
 
     @Test
+    void achievementIdMustBeAValidKey() {
+        assertSingleError(load("""
+              firstCatch:
+                title: t
+                description: d
+                icon: { item: "minecraft:diamond" }
+                trigger: fish_catch
+            """), "firstCatch", "id");
+    }
+
+    @Test
+    void tabIdMustBeAValidKey() {
+        SortedMap<String, String> files = new TreeMap<>();
+        files.put("bad.yml", TAB.replace("id: fishing", "id: 垂钓") + "achievements:\n" + FIRST);
+        LoadResult result = ConfigLoader.load(files, new FakeIds());
+        assertThat(result.issues()).singleElement().satisfies(issue -> {
+            assertThat(issue.severity()).isEqualTo(Severity.ERROR);
+            assertThat(issue.field()).isEqualTo("tab.id");
+        });
+        assertThat(result.catalog().tabs()).isEmpty();
+    }
+
+    @Test
     void unknownTriggerIsError() {
         assertSingleError(load("""
               x:

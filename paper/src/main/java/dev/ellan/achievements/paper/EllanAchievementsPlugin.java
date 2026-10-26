@@ -56,7 +56,8 @@ public final class EllanAchievementsPlugin extends JavaPlugin implements Listene
     public void onEnable() {
         store = new ProgressStore(this);
         registrar = new AdvancementRegistrar(new IconResolver(getLogger()), getLogger());
-        progress = new ProgressService(this, this::catalog, store);
+        RewardService rewards = new RewardService(this, store);
+        progress = new ProgressService(this, this::catalog, store, rewards);
         copyBundledAchievements();
         adapters.enableAll(this, adapters(), progress);
         getLogger().info("Adapters: " + adapters.orderedStatus());
@@ -67,7 +68,7 @@ public final class EllanAchievementsPlugin extends JavaPlugin implements Listene
             registered.setExecutor(command);
             registered.setTabCompleter(command);
         }
-        Bukkit.getPluginManager().registerEvents(new RewardListener(this::catalog, new RewardService(this, store)), this);
+        Bukkit.getPluginManager().registerEvents(new RewardListener(this::catalog, rewards), this);
         // First tick: every plugin is enabled and CraftEngine has loaded its items.
         Bukkit.getScheduler().runTask(this, () -> {
             loadConfig();

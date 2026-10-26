@@ -40,11 +40,22 @@ public final class AdvancementRegistrar {
     public int registerAll(AchievementCatalog catalog) {
         Map<Key, String> json = new LinkedHashMap<>();
         for (TabDefinition tab : catalog.tabs()) {
-            json.put(key(AdvancementJson.rootKey(tab.id())), AdvancementJson.tab(tab, icons.resolve(tab.icon())));
+            try {
+                json.put(key(AdvancementJson.rootKey(tab.id())), AdvancementJson.tab(tab, icons.resolve(tab.icon())));
+            } catch (RuntimeException failure) {
+                logger.severe("Skipping tab " + tab.id() + ": " + failure);
+                continue;
+            }
             for (AchievementDefinition def : parentsFirst(catalog, tab.achievements())) {
-                if (!def.disabled()) {
+                if (def.disabled()) {
+                    continue;
+                }
+                // One broken entry must never stop the others from registering.
+                try {
                     json.put(key(def.fullId()), AdvancementJson.achievement(def, catalog.effectiveParent(def),
                         icons.resolve(def.icon())));
+                } catch (RuntimeException failure) {
+                    logger.severe("Skipping achievement " + def.fullId() + ": " + failure);
                 }
             }
         }

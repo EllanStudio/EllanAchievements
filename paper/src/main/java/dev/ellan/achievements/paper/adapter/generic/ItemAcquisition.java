@@ -41,8 +41,12 @@ public final class ItemAcquisition {
             @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
             public void onPickup(EntityPickupItemEvent event) {
                 if (event.getEntity() instanceof Player player && present(event.getItem().getItemStack())) {
-                    Guard.run(plugin, "EntityPickupItemEvent",
-                        () -> handler.acquired(player, event.getItem().getItemStack(), event.getItem()::setItemStack));
+                    // Paper has already shrunk the entity stack to what fits; a replacement must keep the remainder.
+                    Guard.run(plugin, "EntityPickupItemEvent", () -> handler.acquired(player,
+                        event.getItem().getItemStack(), replacement -> {
+                            replacement.setAmount(replacement.getAmount() + event.getRemaining());
+                            event.getItem().setItemStack(replacement);
+                        }));
                 }
             }
 

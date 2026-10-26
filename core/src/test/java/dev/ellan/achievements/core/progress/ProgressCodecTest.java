@@ -54,6 +54,17 @@ class ProgressCodecTest {
     }
 
     @Test
+    void completedRoundTripsAndClearRemovesIt() {
+        PlayerProgress progress = PlayerProgress.empty();
+        progress.markCompleted("a/b");
+        PlayerProgress decoded = ((DecodeResult.Ok) ProgressCodec.decode(ProgressCodec.encode(progress))).progress();
+        assertThat(decoded.completed("a/b")).isTrue();
+        assertThat(decoded.completed("a/c")).isFalse();
+        decoded.clear("a/b");
+        assertThat(decoded.completed("a/b")).isFalse();
+    }
+
+    @Test
     void clearKeepsRewarded() {
         PlayerProgress progress = PlayerProgress.empty();
         progress.setCounter("a/b", 5);

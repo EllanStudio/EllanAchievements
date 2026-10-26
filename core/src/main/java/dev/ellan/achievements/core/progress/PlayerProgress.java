@@ -10,6 +10,8 @@ public final class PlayerProgress {
     final Map<String, Long> counters = new LinkedHashMap<>();
     final Map<String, Set<String>> uniques = new LinkedHashMap<>();
     final Set<String> rewarded = new LinkedHashSet<>();
+    /** Achievements the player completed, so a raised goal never un-completes them. Cleared by reset. */
+    final Set<String> completed = new LinkedHashSet<>();
 
     public static PlayerProgress empty() {
         return new PlayerProgress();
@@ -40,10 +42,24 @@ public final class PlayerProgress {
         rewarded.add(id);
     }
 
-    /** Clears the counter and unique values; the reward record is kept so a reset never pays twice. */
+    public boolean completed(String id) {
+        return completed.contains(id);
+    }
+
+    /** Returns true if this changed anything. */
+    public boolean markCompleted(String id) {
+        return completed.add(id);
+    }
+
+    public void unmarkCompleted(String id) {
+        completed.remove(id);
+    }
+
+    /** Clears counter, unique values and completion; the reward record is kept so a reset never pays twice. */
     public void clear(String id) {
         counters.remove(id);
         uniques.remove(id);
+        completed.remove(id);
     }
 
     public Map<String, Long> counters() {

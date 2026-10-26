@@ -29,6 +29,7 @@ public final class ProgressCodec {
         });
         root.add("uniques", uniques);
         root.add("rewarded", array(progress.rewarded));
+        root.add("completed", array(progress.completed));
         return root.toString();
     }
 
@@ -51,6 +52,9 @@ public final class ProgressCodec {
             }
             if (root.has("rewarded")) {
                 root.getAsJsonArray("rewarded").forEach(value -> progress.markRewarded(value.getAsString()));
+            }
+            if (root.has("completed")) {
+                root.getAsJsonArray("completed").forEach(value -> progress.markCompleted(value.getAsString()));
             }
             return new DecodeResult.Ok(progress);
         } catch (RuntimeException failure) {

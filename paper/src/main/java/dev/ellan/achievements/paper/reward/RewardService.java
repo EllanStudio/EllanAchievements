@@ -23,6 +23,7 @@ public final class RewardService {
         this.store = store;
     }
 
+    /** Records completion and pays the rewards unless already paid. Safe to call repeatedly. */
     public void grant(Player player, AchievementDefinition def) {
         PlayerProgress progress = store.load(player);
         if (store.readOnly(player.getUniqueId())) {
@@ -30,7 +31,11 @@ public final class RewardService {
                 + ": progress data is unreadable");
             return;
         }
+        boolean newlyCompleted = progress.markCompleted(def.fullId());
         if (progress.rewarded(def.fullId())) {
+            if (newlyCompleted) {
+                store.save(player, progress);
+            }
             return;
         }
         // Record first: a crash mid-payment must not lead to paying twice.

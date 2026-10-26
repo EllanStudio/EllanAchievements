@@ -9,6 +9,7 @@ import dev.ellan.achievements.core.progress.PlayerProgress;
 import dev.ellan.achievements.core.progress.StepMath;
 import dev.ellan.achievements.core.rules.ProgressChange;
 import dev.ellan.achievements.core.rules.RuleEngine;
+import dev.ellan.achievements.paper.reward.RewardService;
 import dev.ellan.achievements.paper.storage.ProgressStore;
 import org.bukkit.Bukkit;
 import org.bukkit.advancement.Advancement;
@@ -24,11 +25,14 @@ public final class ProgressService implements Consumer<GameplayEvent> {
     private final Plugin plugin;
     private final Supplier<AchievementCatalog> catalog;
     private final ProgressStore store;
+    private final RewardService rewards;
 
-    public ProgressService(Plugin plugin, Supplier<AchievementCatalog> catalog, ProgressStore store) {
+    public ProgressService(Plugin plugin, Supplier<AchievementCatalog> catalog, ProgressStore store,
+                           RewardService rewards) {
         this.plugin = plugin;
         this.catalog = catalog;
         this.store = store;
+        this.rewards = rewards;
     }
 
     @Override
@@ -55,7 +59,11 @@ public final class ProgressService implements Consumer<GameplayEvent> {
         }
     }
 
-    /** Grants tab roots and any steps the counters already earned. Never revokes. */
+    /**
+     * Grants tab roots and any steps the counters already earned; completed achievements keep every step even
+     * after a goal increase. Never revokes. A goal decrease can complete an achievement without vanilla firing
+     * the done event, so completion is checked here and rewards paid if still owed.
+     */
     public void align(Player player) {
         AchievementCatalog current = catalog.get();
         for (TabDefinition tab : current.tabs()) {
@@ -67,8 +75,13 @@ public final class ProgressService implements Consumer<GameplayEvent> {
         PlayerProgress progress = store.load(player);
         for (TabDefinition tab : current.tabs()) {
             for (AchievementDefinition def : tab.achievements()) {
-                if (!def.disabled()) {
-                    awardUpTo(player, def.fullId(), StepMath.awardedSteps(progress.counter(def.fullId()), def.goal()));
+                if (def.disabled()) {
+                    continue;
+                }
+                awardUpTo(player, def.fullId(), StepMath.targetSteps(progress.counter(def.fullId()), def.goal(),
+                    progress.completed(def.fullId())));
+                if (isDone(player, def.fullId())) {
+                    rewards.grant(player, def);
                 }
             }
         }
@@ -78,6 +91,9 @@ public final class ProgressService implements Consumer<GameplayEvent> {
     public void setCounter(Player player, AchievementDefinition def, long value) {
         PlayerProgress progress = store.load(player);
         progress.setCounter(def.fullId(), value);
+        if (value < def.goal()) {
+            progress.unmarkCompleted(def.fullId());
+        }
         store.save(player, progress);
         int target = StepMath.awardedSteps(value, def.goal());
         revokeAbove(player, def.fullId(), target);

@@ -23,6 +23,8 @@ import java.util.function.Function;
 /** Parses and validates achievement files (spec §5). Invalid achievements are skipped, never fatal. */
 public final class ConfigLoader {
     private static final String RESERVED_ROOT = "root";
+    /** Tab and achievement ids become advancement key paths, so they must be valid key characters. */
+    private static final java.util.regex.Pattern ID = java.util.regex.Pattern.compile("[a-z0-9_.-]+");
     /** Attributes whose values are item IDs and are checked against the server's items. */
     private static final Set<String> ITEM_ATTRIBUTES = Set.of("item", "dish", "weapon", "product", "drink");
 
@@ -70,6 +72,10 @@ public final class ConfigLoader {
                 "required");
             return Optional.empty();
         }
+        if (!ID.matcher(tabId).matches()) {
+            error(file, null, "tab.id", "must use only a-z 0-9 _ . - (got '" + tabId + "')");
+            return Optional.empty();
+        }
         if (!tabIds.add(tabId)) {
             error(file, null, "tab.id", "tab '" + tabId + "' is already defined by another file");
             return Optional.empty();
@@ -113,8 +119,8 @@ public final class ConfigLoader {
         if (id.equals(RESERVED_ROOT)) {
             return fail(file, id, "id", "'root' is reserved for the tab itself");
         }
-        if (id.contains("/")) {
-            return fail(file, id, "id", "must not contain '/'");
+        if (!ID.matcher(id).matches()) {
+            return fail(file, id, "id", "must use only a-z 0-9 _ . - (got '" + id + "')");
         }
         for (String field : List.of("title", "description", "trigger")) {
             if (string(body, field) == null) {
