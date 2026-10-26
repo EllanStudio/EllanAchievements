@@ -7,6 +7,7 @@ import dev.ellan.achievements.core.config.LoadResult;
 import dev.ellan.achievements.core.config.Severity;
 import dev.ellan.achievements.paper.adapter.Adapter;
 import dev.ellan.achievements.paper.adapter.AdapterRegistry;
+import dev.ellan.achievements.paper.adapter.farming.FarmingAdapter;
 import dev.ellan.achievements.paper.adapter.fishing.FishingAdapter;
 import dev.ellan.achievements.paper.command.AuditLog;
 import dev.ellan.achievements.paper.command.EaCommand;
@@ -72,7 +73,7 @@ public final class EllanAchievementsPlugin extends JavaPlugin implements Listene
 
     /** Adapters in display order; later tasks add to this list. */
     private List<Adapter> adapters() {
-        return List.of(new FishingAdapter());
+        return List.of(new FishingAdapter(), new FarmingAdapter());
     }
 
     /** Re-registers after any datapack reload, which drops in-memory advancements. */
