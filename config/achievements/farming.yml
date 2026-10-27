@@ -1,0 +1,241 @@
+# 农耕成就。成就 id 上线后不要改名或复用；下架请用 disabled: true。
+tab:
+  id: farming
+  title: "农耕"
+  description: "一分耕耘，一分收获"
+  icon: { item: "customcrops:corn" }
+  background: "minecraft:block/farmland"
+achievements:
+  first_seed:
+    title: "播下希望"
+    description: "种下第一株作物"
+    icon: { item: "minecraft:wheat_seeds" }
+    trigger: crop_plant
+    rewards: { exp: 10 }
+  hundred_harvests:
+    parent: first_seed
+    title: "丰收时节"
+    description: "收获 100 次成熟作物"
+    icon: { item: "customcrops:corn" }
+    trigger: crop_harvest
+    goal: 100
+    rewards: { exp: 50, coins: 200 }
+  ten_crops:
+    parent: first_seed
+    title: "百草园"
+    description: "收获 10 种不同的成熟作物"
+    icon: { item: "customcrops:blueberry" }
+    frame: goal
+    trigger: crop_harvest
+    goal: 10
+    count: unique
+    unique-by: crop
+    rewards: { exp: 50, coins: 300 }
+  durian:
+    parent: ten_crops
+    title: "水果之王"
+    description: "收获一个成熟的榴莲"
+    icon: { item: "customcrops:durian" }
+    trigger: crop_harvest
+    filter: { crop: "durian" }
+    rewards: { exp: 30 }
+  golden_quality:
+    parent: hundred_harvests
+    title: "精品农产"
+    description: "收获一份第 3 档品质的作物"
+    icon: { item: "minecraft:golden_carrot" }
+    frame: goal
+    trigger: crop_quality
+    filter: { quality: ">=3" }
+    rewards: { exp: 50, coins: 300 }
+  four_seasons:
+    parent: hundred_harvests
+    title: "四季轮回"
+    description: "在春夏秋冬四个季节都收获过作物"
+    icon: { item: "minecraft:clock" }
+    frame: challenge
+    trigger: crop_harvest
+    goal: 4
+    count: unique
+    unique-by: season
+    rewards: { exp: 100, coins: 500 }
+
+  # —— 播种与收获 ——
+  hundred_plants:
+    parent: first_seed
+    title: "春种一粒粟"
+    description: "种下 100 株作物"
+    icon: { item: "customcrops:tomato_seeds" }
+    trigger: crop_plant
+    goal: 100
+    rewards: { exp: 30, coins: 100 }
+  first_harvest:
+    parent: first_seed
+    title: "第一份收成"
+    description: "收获一次成熟作物"
+    icon: { item: "customcrops:tomato" }
+    trigger: crop_harvest
+    rewards: { exp: 10 }
+  thousand_harvests:
+    parent: hundred_harvests
+    title: "秋收万颗子"
+    description: "收获 1000 次成熟作物"
+    icon: { item: "minecraft:hay_block" }
+    frame: challenge
+    trigger: crop_harvest
+    goal: 1000
+    rewards: { exp: 100, coins: 1000 }
+
+  # —— 品种 ——
+  twenty_crops:
+    parent: ten_crops
+    title: "万物生长"
+    description: "收获 20 种不同的成熟作物"
+    icon: { item: "customcrops:fruit_salad" }
+    frame: goal
+    trigger: crop_harvest
+    goal: 20
+    count: unique
+    unique-by: crop
+    rewards: { exp: 80, coins: 500 }
+  thirty_crops:
+    parent: twenty_crops
+    title: "神农尝百草"
+    description: "收获 30 种不同的成熟作物"
+    icon: { item: "customcrops:healthy_salad" }
+    frame: challenge
+    trigger: crop_harvest
+    goal: 30
+    count: unique
+    unique-by: crop
+    rewards: { exp: 100, coins: 1000 }
+  vegetable_garden:
+    parent: ten_crops
+    title: "菜园子"
+    description: "收获 8 种不同的蔬菜"
+    icon: { item: "customcrops:cabbage" }
+    trigger: crop_harvest
+    filter:
+      crop: ["tomato", "cabbage", "corn", "cucumber", "eggplant", "green_bean", "leek",
+             "lettuce", "onion", "pepper", "sweet_potato"]
+    goal: 8
+    count: unique
+    unique-by: crop
+    rewards: { exp: 40, coins: 200 }
+  berry_season:
+    parent: ten_crops
+    title: "浆果季"
+    description: "收获蓝莓、黑莓、覆盆子和枸杞"
+    icon: { item: "customcrops:raspberry" }
+    trigger: crop_harvest
+    filter: { crop: ["blueberry", "blackberry", "raspberry", "goji"] }
+    goal: 4
+    count: unique
+    unique-by: crop
+    rewards: { exp: 40, coins: 200 }
+  tropical_orchard:
+    parent: ten_crops
+    title: "热带果园"
+    description: "收获 6 种不同的热带水果"
+    icon: { item: "customcrops:pineapple" }
+    frame: goal
+    trigger: crop_harvest
+    filter:
+      crop: ["coconut", "mango", "papaya", "pineapple", "pitaya", "durian", "lychee",
+             "carambola", "guava", "avocado", "kiwi"]
+    goal: 6
+    count: unique
+    unique-by: crop
+    rewards: { exp: 60, coins: 300 }
+  vineyard:
+    parent: first_harvest
+    title: "葡萄园"
+    description: "收获一次成熟的葡萄"
+    icon: { item: "kaleidoscope_tavern:grape" }
+    trigger: crop_harvest
+    filter: { crop: ["kaleidoscope_tavern_grape", "kaleidoscope_tavern_ice_grape", "kaleidoscope_tavern_gold_grape"] }
+    rewards: { exp: 20 }
+  three_grapes:
+    parent: vineyard
+    title: "酿酒师的田"
+    description: "收获葡萄、冰葡萄和黄金葡萄"
+    icon: { item: "kaleidoscope_tavern:gold_grape" }
+    frame: goal
+    trigger: crop_harvest
+    filter: { crop: ["kaleidoscope_tavern_grape", "kaleidoscope_tavern_ice_grape", "kaleidoscope_tavern_gold_grape"] }
+    goal: 3
+    count: unique
+    unique-by: crop
+    rewards: { exp: 60, coins: 300 }
+  hops:
+    parent: first_harvest
+    title: "啤酒的灵魂"
+    description: "收获一次成熟的啤酒花"
+    icon: { item: "customcrops:hop" }
+    trigger: crop_harvest
+    filter: { crop: "hop" }
+    rewards: { exp: 20 }
+  nether_gardener:
+    parent: twenty_crops
+    title: "下界园丁"
+    description: "收获绯红栓菌和诡异发光菌"
+    icon: { item: "customcrops:warped_glow_fungus" }
+    frame: goal
+    trigger: crop_harvest
+    filter: { crop: ["crimson_bracket_fungus", "warped_glow_fungus"] }
+    goal: 2
+    count: unique
+    unique-by: crop
+    rewards: { exp: 60, coins: 400 }
+  strange_plants:
+    parent: twenty_crops
+    title: "奇花异草"
+    description: "收获堇幽果和幽碧兰"
+    icon: { item: "customcrops:virelia" }
+    frame: goal
+    hidden: true
+    trigger: crop_harvest
+    filter: { crop: ["virelia", "virelo"] }
+    goal: 2
+    count: unique
+    unique-by: crop
+    rewards: { exp: 60, coins: 400 }
+  red_packet:
+    parent: first_harvest
+    title: "恭喜发财"
+    description: "收获一次成熟的摇钱树"
+    icon: { item: "customcrops:redpacket" }
+    hidden: true
+    trigger: crop_harvest
+    filter: { crop: "redpacket" }
+    rewards: { exp: 30, coins: 288 }
+
+  # —— 季节 ——
+  winter_harvest:
+    parent: hundred_harvests
+    title: "瑞雪兆丰年"
+    description: "在冬季收获一次作物"
+    icon: { item: "minecraft:snow_block" }
+    trigger: crop_harvest
+    filter: { season: "winter" }
+    rewards: { exp: 30, coins: 100 }
+
+  # —— 品质 ——
+  good_quality:
+    parent: first_harvest
+    title: "好收成"
+    description: "收获一份第 2 档品质的作物"
+    icon: { item: "customcrops:quality_2" }
+    trigger: crop_quality
+    filter: { quality: ">=2" }
+    rewards: { exp: 20, coins: 50 }
+  golden_fifty:
+    parent: golden_quality
+    title: "金牌农夫"
+    description: "累计收获 50 份第 3 档品质的作物"
+    icon: { item: "customcrops:golden_tomato" }
+    frame: challenge
+    trigger: crop_quality
+    filter: { quality: ">=3" }
+    goal: 50
+    rewards: { exp: 100, coins: 800 }

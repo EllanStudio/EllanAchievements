@@ -1,0 +1,225 @@
+# 古法酿酒成就（森罗酒馆）。成就 id 上线后不要改名或复用；下架请用 disabled: true。
+tab:
+  id: tavern
+  title: "古法酿酒"
+  description: "压榨、陈酿、调制，来一杯吧"
+  icon: { item: "kaleidoscope_tavern:champagne" }
+  background: "minecraft:block/dark_oak_planks"
+achievements:
+  first_press:
+    title: "榨汁时间"
+    description: "用空桶从压榨桶中取出果汁"
+    icon: { item: "kaleidoscope_tavern:grape_bucket" }
+    trigger: tavern_press
+    rewards: { exp: 10 }
+  first_shake:
+    parent: first_press
+    title: "摇一摇"
+    description: "用雪克杯调出一杯饮品"
+    icon: { item: "kaleidoscope_tavern:bloody_mary" }
+    trigger: tavern_shake
+    rewards: { exp: 10 }
+  brandy_tap:
+    parent: first_press
+    title: "陈年白兰地"
+    description: "从酒桶龙头接出一杯白兰地"
+    icon: { item: "kaleidoscope_tavern:brandy" }
+    frame: goal
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:brandy" }
+    rewards: { exp: 50, coins: 300 }
+  five_cocktails:
+    parent: first_shake
+    title: "调酒师"
+    description: "调出 5 种不同的鸡尾酒"
+    icon: { item: "kaleidoscope_tavern:champagne" }
+    frame: goal
+    trigger: tavern_shake
+    goal: 5
+    count: unique
+    unique-by: product
+    rewards: { exp: 50, coins: 300 }
+  bloody_mary:
+    parent: first_shake
+    title: "血腥玛丽"
+    description: "调出一杯血腥玛丽"
+    icon: { item: "kaleidoscope_tavern:bloody_mary" }
+    trigger: tavern_shake
+    filter: { product: "kaleidoscope_tavern:bloody_mary" }
+    rewards: { exp: 30 }
+  twenty_drinks:
+    parent: first_press
+    title: "常客"
+    description: "喝下 20 杯酒馆饮品"
+    icon: { item: "kaleidoscope_tavern:barrel" }
+    trigger: tavern_drink
+    goal: 20
+    rewards: { exp: 30 }
+
+  # —— 压榨 ——
+  hundred_presses:
+    parent: first_press
+    title: "榨汁工坊"
+    description: "从压榨桶中取出 100 次果汁"
+    icon: { item: "minecraft:bucket" }
+    trigger: tavern_press
+    goal: 100
+    rewards: { exp: 50, coins: 300 }
+
+  # —— 调酒 ——
+  fifty_shakes:
+    parent: first_shake
+    title: "手腕发酸"
+    description: "调出 50 杯饮品"
+    icon: { item: "kaleidoscope_tavern:mojito" }
+    trigger: tavern_shake
+    goal: 50
+    rewards: { exp: 50, coins: 300 }
+  all_cocktails:
+    parent: five_cocktails
+    title: "鸡尾酒全书"
+    description: "调出全部 12 种鸡尾酒"
+    icon: { item: "kaleidoscope_tavern:white_lady" }
+    frame: challenge
+    trigger: tavern_shake
+    filter:
+      product: ["kaleidoscope_tavern:allium_garden", "kaleidoscope_tavern:bloody_mary",
+                "kaleidoscope_tavern:brass_heart", "kaleidoscope_tavern:depth_charge",
+                "kaleidoscope_tavern:emerald", "kaleidoscope_tavern:godfather",
+                "kaleidoscope_tavern:grasshopper", "kaleidoscope_tavern:mojito",
+                "kaleidoscope_tavern:nether_special", "kaleidoscope_tavern:screwdriver",
+                "kaleidoscope_tavern:sculk_special", "kaleidoscope_tavern:white_lady"]
+    goal: 12
+    count: unique
+    unique-by: product
+    rewards: { exp: 100, coins: 1000 }
+  mystery_cocktail:
+    parent: first_shake
+    title: "谁也说不清这是什么"
+    description: "调出一杯谜之鸡尾酒"
+    icon: { item: "kaleidoscope_tavern:mystery_cocktail" }
+    hidden: true
+    trigger: tavern_shake
+    filter: { product: "kaleidoscope_tavern:mystery_cocktail" }
+    rewards: { exp: 30, coins: 100 }
+  signature_cocktail:
+    parent: first_shake
+    title: "本店招牌"
+    description: "调出一杯特调鸡尾酒"
+    icon: { item: "kaleidoscope_tavern:signature_cocktail" }
+    trigger: tavern_shake
+    filter: { product: "kaleidoscope_tavern:signature_cocktail" }
+    rewards: { exp: 20 }
+  godfather:
+    parent: five_cocktails
+    title: "教父"
+    description: "调出一杯教父"
+    icon: { item: "kaleidoscope_tavern:godfather" }
+    trigger: tavern_shake
+    filter: { product: "kaleidoscope_tavern:godfather" }
+    rewards: { exp: 30 }
+  sculk_special:
+    parent: five_cocktails
+    title: "来自深暗之域"
+    description: "调出一杯幽匿特调"
+    icon: { item: "kaleidoscope_tavern:sculk_special" }
+    hidden: true
+    trigger: tavern_shake
+    filter: { product: "kaleidoscope_tavern:sculk_special" }
+    rewards: { exp: 40, coins: 200 }
+
+  # —— 陈酿 ——
+  first_tap:
+    parent: first_press
+    title: "开桶"
+    description: "从酒桶龙头接出第一杯酒"
+    icon: { item: "kaleidoscope_tavern:wine" }
+    trigger: tavern_tap
+    rewards: { exp: 10 }
+  ten_aged:
+    parent: first_tap
+    title: "酒窖藏品"
+    description: "从酒桶接出 10 种不同的酒"
+    icon: { item: "kaleidoscope_tavern:sherry" }
+    frame: goal
+    trigger: tavern_tap
+    goal: 10
+    count: unique
+    unique-by: product
+    rewards: { exp: 60, coins: 400 }
+  twenty_aged:
+    parent: ten_aged
+    title: "百年酒庄"
+    description: "从酒桶接出 20 种不同的酒"
+    icon: { item: "kaleidoscope_tavern:red_queen" }
+    frame: challenge
+    trigger: tavern_tap
+    goal: 20
+    count: unique
+    unique-by: product
+    rewards: { exp: 100, coins: 1000 }
+  champagne:
+    parent: first_tap
+    title: "香槟时刻"
+    description: "从酒桶接出一杯香槟"
+    icon: { item: "kaleidoscope_tavern:champagne" }
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:champagne" }
+    rewards: { exp: 30 }
+  ice_wine:
+    parent: first_tap
+    title: "冰天雪地的甜"
+    description: "从酒桶接出一杯冰葡萄酒"
+    icon: { item: "kaleidoscope_tavern:ice_wine" }
+    frame: goal
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:ice_wine" }
+    rewards: { exp: 40, coins: 200 }
+  sakura_wine:
+    parent: first_tap
+    title: "樱花落尽"
+    description: "从酒桶接出一杯樱花葡萄酒"
+    icon: { item: "kaleidoscope_tavern:sakura_wine" }
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:sakura_wine" }
+    rewards: { exp: 30 }
+  molotov:
+    parent: ten_aged
+    title: "这真的能喝吗"
+    description: "从酒桶接出一杯莫洛托夫鸡尾酒"
+    icon: { item: "kaleidoscope_tavern:molotov" }
+    hidden: true
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:molotov" }
+    rewards: { exp: 40, coins: 200 }
+  vinegar:
+    parent: first_tap
+    title: "酿成了醋"
+    description: "配方不对，酒桶里只剩一桶醋"
+    icon: { item: "kaleidoscope_tavern:vinegar" }
+    hidden: true
+    trigger: tavern_tap
+    filter: { product: "kaleidoscope_tavern:vinegar" }
+    rewards: { exp: 10 }
+
+  # —— 品饮 ——
+  hundred_drinks:
+    parent: twenty_drinks
+    title: "酒馆的老面孔"
+    description: "喝下 100 杯酒馆饮品"
+    icon: { item: "kaleidoscope_tavern:whiskey" }
+    frame: goal
+    trigger: tavern_drink
+    goal: 100
+    rewards: { exp: 60, coins: 400 }
+  ten_kinds_drunk:
+    parent: twenty_drinks
+    title: "品酒师"
+    description: "喝过 10 种不同的酒馆饮品"
+    icon: { item: "kaleidoscope_tavern:riesling_dry_white" }
+    frame: goal
+    trigger: tavern_drink
+    goal: 10
+    count: unique
+    unique-by: drink
+    rewards: { exp: 60, coins: 400 }
