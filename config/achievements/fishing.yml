@@ -1,7 +1,7 @@
-# 垂钓成就（示例，可直接修改）。成就 id 上线后不要改名或复用；下架请用 disabled: true。
+# 渔获成就。成就 id 上线后不要改名或复用；下架请用 disabled: true。
 tab:
   id: fishing
-  title: "垂钓"
+  title: "渔获"
   description: "与鱼相伴的日子"
   icon: { item: "customfishing:gold_fish" }
   background: "minecraft:block/prismarine"
@@ -75,3 +75,225 @@ achievements:
     trigger: fish_catch
     filter: { group: ["void"] }
     rewards: { exp: 100, coins: 500 }
+
+  # —— 数量 ——
+  ten_catches:
+    parent: first_catch
+    title: "渐入佳境"
+    description: "累计钓上 10 次"
+    icon: { item: "customfishing:sardine_fish" }
+    trigger: fish_catch
+    goal: 10
+    rewards: { exp: 20, coins: 50 }
+  river_fifty:
+    parent: ten_catches
+    title: "河畔常客"
+    description: "在河里钓上 50 条河鱼"
+    icon: { item: "customfishing:carp_fish" }
+    trigger: fish_catch
+    filter: { group: ["river"] }
+    goal: 50
+    rewards: { exp: 40, coins: 150 }
+  ocean_fifty:
+    parent: ten_catches
+    title: "出海去"
+    description: "钓上 50 条海鱼"
+    icon: { item: "customfishing:red_snapper_fish" }
+    trigger: fish_catch
+    filter: { group: ["ocean"] }
+    goal: 50
+    rewards: { exp: 40, coins: 150 }
+
+  # —— 星级 ——
+  silver_star:
+    parent: first_catch
+    title: "银光闪闪"
+    description: "钓上一条银星渔获"
+    icon: { item: "customfishing:pike_fish" }
+    trigger: fish_catch
+    filter: { group: ["silver_star"] }
+    rewards: { exp: 20, coins: 50 }
+  golden_star:
+    parent: silver_star
+    title: "金光闪闪"
+    description: "钓上一条金星渔获"
+    icon: { item: "customfishing:gold_fish" }
+    frame: goal
+    trigger: fish_catch
+    filter: { group: ["golden_star"] }
+    rewards: { exp: 40, coins: 200 }
+  golden_star_ten:
+    parent: golden_star
+    title: "点石成金"
+    description: "累计钓上 10 条金星渔获"
+    icon: { item: "minecraft:gold_block" }
+    frame: goal
+    trigger: fish_catch
+    filter: { group: ["golden_star"] }
+    goal: 10
+    rewards: { exp: 80, coins: 500 }
+  golden_star_five_species:
+    parent: golden_star_ten
+    title: "金色图鉴"
+    description: "钓上 5 种不同的金星渔获"
+    icon: { item: "customfishing:golden_rod" }
+    frame: challenge
+    trigger: fish_catch
+    filter: { group: ["golden_star"] }
+    goal: 5
+    count: unique
+    unique-by: loot
+    rewards: { exp: 100, coins: 1000 }
+
+  # —— 图鉴 ——
+  twenty_five_species:
+    parent: ten_species
+    title: "图鉴渐丰"
+    description: "钓上 25 种不同的渔获"
+    icon: { item: "minecraft:writable_book" }
+    frame: goal
+    trigger: fish_catch
+    goal: 25
+    count: unique
+    unique-by: loot
+    rewards: { exp: 80, coins: 500 }
+  fifty_species:
+    parent: twenty_five_species
+    title: "博物学家"
+    description: "钓上 50 种不同的渔获"
+    icon: { item: "minecraft:enchanted_book" }
+    frame: challenge
+    trigger: fish_catch
+    goal: 50
+    count: unique
+    unique-by: loot
+    rewards: { exp: 100, coins: 1000 }
+  exotic_ten:
+    parent: ten_species
+    title: "异域鱼种"
+    description: "钓上 10 种不同的异域渔获"
+    icon: { item: "fishing_pack:gemfish" }
+    frame: goal
+    trigger: fish_catch
+    filter: { group: ["fishing_pack_water", "fishing_pack_lava"] }
+    goal: 10
+    count: unique
+    unique-by: loot
+    rewards: { exp: 60, coins: 400 }
+  jellyfish:
+    parent: ten_species
+    title: "软绵绵"
+    description: "钓上一只水母"
+    icon: { item: "customfishing:pink_jellyfish" }
+    trigger: fish_catch
+    filter:
+      loot: ["blue_jellyfish", "blue_jellyfish_silver_star", "blue_jellyfish_golden_star",
+             "pink_jellyfish", "pink_jellyfish_silver_star", "pink_jellyfish_golden_star"]
+    rewards: { exp: 20 }
+
+  # —— 熔岩 ——
+  lava_angler:
+    parent: hundred_catches
+    title: "火中取鱼"
+    description: "从熔岩里钓上东西"
+    icon: { item: "minecraft:lava_bucket" }
+    frame: goal
+    trigger: fish_catch
+    filter: { group: ["lava", "fishing_pack_lava"] }
+    rewards: { exp: 50, coins: 300 }
+  lava_fifty:
+    parent: lava_angler
+    title: "熔岩渔夫"
+    description: "从熔岩里钓上 50 次"
+    icon: { item: "fishing_pack:magma_trout" }
+    frame: challenge
+    trigger: fish_catch
+    filter: { group: ["lava", "fishing_pack_lava"] }
+    goal: 50
+    rewards: { exp: 100, coins: 800 }
+
+  # —— 尺寸 ——
+  giant_hundred:
+    parent: big_one
+    title: "巨物出水"
+    description: "钓上一条尺寸不小于 100 的鱼"
+    icon: { item: "fishing_pack:stingray" }
+    frame: goal
+    trigger: fish_catch
+    filter: { size: ">=100" }
+    rewards: { exp: 60, coins: 400 }
+  sea_monster:
+    parent: giant_hundred
+    title: "海怪传说"
+    description: "钓上一条尺寸不小于 180 的鱼"
+    icon: { item: "fishing_pack:blue_eel" }
+    frame: challenge
+    hidden: true
+    trigger: fish_catch
+    filter: { size: ">=180" }
+    rewards: { exp: 100, coins: 1000 }
+
+  # —— 意外收获 ——
+  old_boot:
+    parent: first_catch
+    title: "一只旧靴子"
+    description: "钓上一只靴子"
+    icon: { item: "minecraft:leather_boots" }
+    hidden: true
+    trigger: fish_catch
+    filter: { loot: "shoes" }
+    rewards: { exp: 10 }
+  radioactive:
+    parent: first_catch
+    title: "这能吃吗？"
+    description: "钓上一条放射性鱼"
+    icon: { item: "customfishing:radioactive_fish" }
+    hidden: true
+    trigger: fish_catch
+    filter: { loot: "rubbish" }
+    rewards: { exp: 20 }
+  rainbow:
+    parent: ten_species
+    title: "风雨之后"
+    description: "钓上一条彩虹鱼"
+    icon: { item: "customfishing:rainbow_fish" }
+    frame: goal
+    hidden: true
+    trigger: fish_catch
+    filter: { loot: "rainbow_fish" }
+    rewards: { exp: 50, coins: 300 }
+  sunken_treasure:
+    parent: hundred_catches
+    title: "水底的宝藏"
+    description: "钓上一颗钻石"
+    icon: { item: "minecraft:diamond" }
+    frame: goal
+    hidden: true
+    trigger: fish_catch
+    filter: { loot: "diamond" }
+    rewards: { exp: 50, coins: 200 }
+  enchanted_catch:
+    parent: hundred_catches
+    title: "知识就是力量"
+    description: "钓上一本附魔书"
+    icon: { item: "minecraft:enchanted_book" }
+    trigger: fish_catch
+    filter: { loot: "enchantment_book" }
+    rewards: { exp: 30 }
+  hooked_mob:
+    parent: hundred_catches
+    title: "钓到了个什么东西"
+    description: "从水里钓起一只怪物"
+    icon: { item: "minecraft:skeleton_skull" }
+    hidden: true
+    trigger: fish_catch
+    filter: { type: "entity" }
+    rewards: { exp: 30, coins: 100 }
+  crate:
+    parent: hundred_catches
+    title: "整箱打包"
+    description: "钓上一只补给箱"
+    icon: { item: "minecraft:chest" }
+    trigger: fish_catch
+    filter: { type: "block" }
+    rewards: { exp: 30, coins: 100 }

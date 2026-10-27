@@ -91,14 +91,14 @@ achievements:
 
 ### 烹饪成就
 
-`config/achievements/cooking.yml` 由 `tools/migrate_kaleidoscope.py` 从烹饪插件自带的成就定义
-（`tools/kaleidoscope.json`）生成：33 个成就，原"森罗厨房"根成就变成分页本身，氮气系列 4 个因插件没有该玩法而
-不迁移。烹饪插件里那套依赖 UltimateAdvancementAPI 的成就**不要启用**（不要装 UltimateAdvancementAPI），否则会重复。
+`config/achievements/cooking.yml` 的前 33 个成就由 `tools/migrate_kaleidoscope.py` 从烹饪插件自带的成就定义
+（`tools/kaleidoscope.json`）迁移而来（氮气系列 4 个因插件没有该玩法而不迁移），之后**手工维护**，
+不要再运行迁移脚本覆盖。烹饪插件里那套依赖 UltimateAdvancementAPI 的成就**不要启用**（不要装 UltimateAdvancementAPI），否则会重复。
 
-```bash
-python3 -I tools/migrate_kaleidoscope.py      # 重新生成（会覆盖手工修改）
-python3 -I -m unittest discover -s tools -p 'test_*.py'
-```
+### 写成就文案
+
+标题、描述里提到的作物、鱼、菜、酒，一律用游戏里的实际名称（CraftEngine 的中文翻译、TheBrewingProject 配方名的中间档）。
+例如 `redpacket` 作物叫"摇钱树"，`raspberry` 叫"覆盆子"，`shawarma_spit` 叫"旋风烤肉塔"。
 
 ## 进度与奖励
 
