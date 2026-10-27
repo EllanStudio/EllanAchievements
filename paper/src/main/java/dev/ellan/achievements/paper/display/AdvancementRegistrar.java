@@ -66,6 +66,7 @@ public final class AdvancementRegistrar {
         long modelled = json.values().stream().filter(entry -> entry.contains("\"minecraft:item_model\"")
             || entry.contains("\"minecraft:custom_model_data\"")).count();
         logger.info(modelled + " of " + json.size() + " icons use a custom model");
+        OnlineAdvancementRefresh.refreshAll(logger);
         return loaded.size();
     }
 

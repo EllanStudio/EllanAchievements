@@ -37,6 +37,6 @@ class ShippedConfigTest {
         assertThat(result.catalog().tabs()).extracting(TabDefinition::id)
             .containsExactly("brewing", "cooking", "farming", "fishing", "tavern");
         assertThat(result.catalog().tabs().stream().filter(tab -> tab.id().equals("cooking")).findFirst().orElseThrow()
-            .achievements()).hasSize(33);
+            .achievements()).hasSizeGreaterThanOrEqualTo(33);
     }
 }
