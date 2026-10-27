@@ -22,7 +22,13 @@ public final class IconResolver {
     }
 
     public ResolvedIcon resolve(IconSpec spec) {
-        ItemStack stack = ItemIds.build(spec.item(), 1).orElse(null);
+        ItemStack stack;
+        try {
+            stack = ItemIds.buildIcon(spec.item()).orElse(null);
+        } catch (RuntimeException failure) {
+            logger.warning("Icon item '" + spec.item() + "' has no client view (" + failure + "); using the plain item");
+            stack = ItemIds.build(spec.item(), 1).orElse(null);
+        }
         if (stack == null) {
             logger.warning("Icon item '" + spec.item() + "' not found; using minecraft:barrier");
             return UNKNOWN;

@@ -34,4 +34,13 @@ public final class ItemIds {
         }
         return craftEngine() ? CraftEngineHook.build(normalized, amount) : Optional.empty();
     }
+
+    /** Like {@link #build} with amount 1, but CraftEngine items carry what clients see (model, client material). */
+    public static Optional<ItemStack> buildIcon(String id) {
+        String normalized = id.toLowerCase(Locale.ROOT);
+        if (normalized.startsWith("minecraft:") || !normalized.contains(":") || !craftEngine()) {
+            return build(normalized, 1);
+        }
+        return CraftEngineHook.buildClientView(normalized);
+    }
 }

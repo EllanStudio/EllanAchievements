@@ -63,6 +63,9 @@ public final class AdvancementRegistrar {
         if (loaded.size() != json.size()) {
             logger.warning("Registered " + loaded.size() + " of " + json.size() + " advancements");
         }
+        long modelled = json.values().stream().filter(entry -> entry.contains("\"minecraft:item_model\"")
+            || entry.contains("\"minecraft:custom_model_data\"")).count();
+        logger.info(modelled + " of " + json.size() + " icons use a custom model");
         return loaded.size();
     }
 
