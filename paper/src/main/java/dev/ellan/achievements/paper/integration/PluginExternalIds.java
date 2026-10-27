@@ -39,7 +39,9 @@ public final class PluginExternalIds implements ExternalIds {
 
     @Override
     public Optional<Boolean> brewRecipe(String id) {
-        return ask("TheBrewingProject", () -> TbpApi.find(plugin).map(api -> api.recipeExists(id)).orElseThrow());
+        // Recipes not loaded yet counts as unknown; /ea reload checks them for real.
+        return ask("TheBrewingProject", () -> TbpApi.find(plugin).filter(TbpApi::recipesLoaded)
+            .map(api -> api.recipeExists(id)).orElseThrow());
     }
 
     @Override

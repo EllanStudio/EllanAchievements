@@ -93,6 +93,11 @@ public final class TbpApi {
         throw new IllegalStateException(target.getClass().getName() + " has no " + name + "(" + argument.getClass().getName() + ")");
     }
 
+    /** Whether TBP has registered its recipes yet; at server start it does so after our first tick. */
+    public boolean recipesLoaded() {
+        return !((java.util.Collection<?>) ReflectiveEvents.call(recipeRegistry(), "getRecipes")).isEmpty();
+    }
+
     public boolean recipeExists(String name) {
         try {
             Object registry = recipeRegistry();
